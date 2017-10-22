@@ -1,13 +1,8 @@
 'use strict';
 
-/**
- * To create a permanent FB token see:
- * https://stackoverflow.com/questions/17197970/facebook-permanent-page-access-token
- */
 require('dotenv').config();
 const Hapi = require('hapi');
 const contentful = require('contentful');
-const config = require('./config');
 const FB = require('fb');
 
 const server = new Hapi.Server();
@@ -92,6 +87,10 @@ function createFb() {
 
     const fb = new FB.Facebook(options);
 
+    /**
+     * To create a permanent FB token see:
+     * https://stackoverflow.com/questions/17197970/facebook-permanent-page-access-token
+     */
     fb.setAccessToken(process.env.FB_TOKEN);
 
     return fb;
