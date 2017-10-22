@@ -4,6 +4,7 @@
  * To create a permanent FB token see:
  * https://stackoverflow.com/questions/17197970/facebook-permanent-page-access-token
  */
+require('dotenv').config();
 const Hapi = require('hapi');
 const contentful = require('contentful');
 const config = require('./config');
@@ -23,8 +24,8 @@ server.route({
     config: {
         handler: function (request, reply) {
             const cmsClient = contentful.createClient({
-                space: config.cSpaceId,
-                accessToken: config.cToken
+                space: process.env.CONTENTFUL_ID,
+                accessToken: process.env.CONTENTFUL_TOKEN
             });
 
             cmsClient.getEntries()
@@ -85,13 +86,13 @@ server.start((err) => {
 function createFb() {
     const options = {
         version: 'v2.10',
-        appId: config.fbId,
-        appSecret: config.fbSecret
+        appId: process.env.FB_ID,
+        appSecret: process.env.FB_SECRET
     };
 
     const fb = new FB.Facebook(options);
 
-    fb.setAccessToken(config.fbToken);
+    fb.setAccessToken(process.env.FB_TOKEN);
 
     return fb;
 }
