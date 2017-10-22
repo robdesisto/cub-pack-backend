@@ -1,0 +1,29 @@
+{
+    "name": "cub-site-backend",
+    "version": "0.0.1",
+    "description": "A simple backend for proxy APIs",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js",
+        "release": "standard-version && git push --follow-tags origin master",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/robdesisto/cub-site-backend.git"
+    },
+    "author": "Rob DeSisto",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/robdesisto/cub-site-backend/issues"
+    },
+    "homepage": "https://github.com/robdesisto/cub-site-backend#readme",
+    "devDependencies": {
+        "standard-version": "~4.2.0"
+    },
+    "dependencies": {
+        "contentful": "~5.0.1",
+        "fb": "~2.0.0",
+        "hapi": "~16.6.2"
+    }
+}
