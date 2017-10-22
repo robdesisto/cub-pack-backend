@@ -2,7 +2,7 @@
   "name": "cub-site-backend",
   "version": "0.0.1",
   "description": "A simple backend for proxy APIs",
-  "main": "server.js",
+  "main": "main.js",
   "scripts": {
     "start": "node server.js",
     "release": "standard-version && git push --follow-tags origin master",
