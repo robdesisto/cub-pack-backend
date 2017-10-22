@@ -18,9 +18,11 @@ server.route({
     path: '/',
     config: {
         handler: function (request, reply) {
-            reply('Hello Clarice');
+            reply('Hello Scouts!');
+        }
     }
 });
+
 
 server.route({
     method: 'GET',
