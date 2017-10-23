@@ -137,11 +137,10 @@ server.route({
 
             transporter.sendMail(mailOptions, function (error, info) {
                 if (error) {
-                    console.log(error);
                     throw error;
+                    reply({data: 'error', info: info})
                 } else {
-                    console.log('Message sent: ' + info.response);
-                    reply(info.response);
+                    reply({data: 'success', info: info});
                 }
             });
         }
