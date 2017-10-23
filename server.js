@@ -1,6 +1,7 @@
 'use strict';
 
 require('dotenv').config();
+const mailer = require('nodemailer');
 const Hapi = require('hapi');
 const contentful = require('contentful');
 const FB = require('fb');
@@ -105,6 +106,48 @@ server.route({
         }
     }
 });
+
+server.route({
+    method: 'POST',
+    path: '/contact',
+    config: {
+        handler: function (request, reply) {
+            const data = request.payload;
+
+            const transporter = mailer.createTransport({
+                host: process.env.EMAIL_SERVER,
+                port: 587,
+                secure: false,
+                auth: {
+                    user: process.env.EMAIL_ADDRESS,
+                    pass: process.env.EMAIL_PW
+                }
+            });
+
+            const mailOptions = {
+                from: process.env.EMAIL_ADDRESS,
+                to: process.env.EMAIL_ADDRESS,
+                subject: `Pack 122 Contact Request from ${data.name}`,
+                html: `<h2>Pack 122 Contact Request</h2>
+                        <p><strong>Name:</strong> ${data.name}</p>
+                        <p><strong>Email:</strong> ${data.email}</p>
+                        <h3>Message</h3>
+                        <p>${data.message}</p>`
+            };
+
+            transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                    console.log(error);
+                    throw error;
+                } else {
+                    console.log('Message sent: ' + info.response);
+                    reply(info.response);
+                }
+            });
+        }
+    }
+});
+
 
 server.start((err) => {
 
