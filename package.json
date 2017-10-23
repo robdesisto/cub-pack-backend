@@ -1,6 +1,6 @@
 {
   "name": "cub-site-backend",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A simple backend for proxy APIs",
   "main": "server.js",
   "scripts": {
