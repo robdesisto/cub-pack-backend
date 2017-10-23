@@ -51,10 +51,25 @@ server.route({
     config: {
         handler: function (request, reply) {
             const fbClient = createFb();
+            let events = [];
 
             fbClient.api('/pack122/events', 'get')
                 .then((res) => {
-                    reply(res);
+                    if (res.data && res.data.length > 0) {
+                        const now = new Date().valueOf();
+
+                        events = res.data.map((obj) => {
+                            // convert to epoch time stamps so that safari is happy
+                            obj.end_time = obj.end_time ? new Date(obj.end_time).valueOf() : null;
+                            obj.start_time = new Date(obj.start_time).valueOf();
+                            return obj;
+                        }).filter((obj) => {
+                            // show only upcoming
+                            return obj.start_time > now;
+                        }).reverse();
+                    }
+
+                    reply({data: events});
                 }, (e) => {
                     console.error(e);
                     throw e;
@@ -69,10 +84,20 @@ server.route({
     config: {
         handler: function (request, reply) {
             const fbClient = createFb();
+            let posts = [];
 
             fbClient.api('/pack122/posts', 'get')
                 .then((res) => {
-                    reply(res);
+                    // Don't show posts without a message and show the last 10 qualifying
+                    if (res.data && res.data.length > 0) {
+                        posts = res.data.map((obj) => {
+                            // convert to epoch time stamp so that safari is happy
+                            obj.created_time = new Date(obj.created_time).valueOf();
+                            return obj;
+                        }).filter((obj) => obj.message).slice(0, 10);
+                    }
+
+                    reply({data: posts});
                 }, (e) => {
                     console.error(e);
                     throw e;
